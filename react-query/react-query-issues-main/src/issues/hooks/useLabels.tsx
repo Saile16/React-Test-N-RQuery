@@ -12,8 +12,8 @@ const getLabels = async (): Promise<Label[]> => {
 export const useLabels = () => {
   const labelsQuery = useQuery(["labels"], getLabels, {
     // staleTime: 1000 * 60 * 60,
-    // placeholderData:[]
-    initialData: [
+    // placeholderData:[] ,initialData: []
+    placeholderData: [
       {
         id: 1757816973,
         node_id: "MDU6TGFiZWwxNzU3ODE2OTcz",
