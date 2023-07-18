@@ -11,7 +11,26 @@ const getLabels = async (): Promise<Label[]> => {
 
 export const useLabels = () => {
   const labelsQuery = useQuery(["labels"], getLabels, {
-    staleTime: 1000 * 60 * 60,
+    // staleTime: 1000 * 60 * 60,
+    // placeholderData:[]
+    initialData: [
+      {
+        id: 1757816973,
+        node_id: "MDU6TGFiZWwxNzU3ODE2OTcz",
+        url: "https://api.github.com/repos/facebook/react/labels/dependencies",
+        name: "dependencies",
+        color: "0366d6",
+        default: false,
+      },
+      {
+        id: 1109407645,
+        node_id: "MDU6TGFiZWwxMTA5NDA3NjQ1",
+        url: "https://api.github.com/repos/facebook/react/labels/Component:%20Suspense",
+        name: "Component: Suspense",
+        color: "8ffcd6",
+        default: false,
+      },
+    ],
   });
 
   return labelsQuery;
