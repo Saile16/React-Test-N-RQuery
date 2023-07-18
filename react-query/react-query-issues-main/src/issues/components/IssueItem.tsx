@@ -1,7 +1,10 @@
 import { FiInfo, FiMessageSquare, FiCheckCircle } from "react-icons/fi";
-import { Issue, State } from "../interfaces/issue";
 import { FC } from "react";
 import { useNavigate } from "react-router-dom";
+import { useQueryClient } from "@tanstack/react-query";
+
+import { Issue, State } from "../interfaces/issue";
+import { getIssueComments, getIssueInfo } from "../hooks/useIssue";
 
 interface Props {
   issue: Issue;
@@ -9,10 +12,34 @@ interface Props {
 
 export const IssueItem: FC<Props> = ({ issue }) => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  //El prefetch data realiza una llamada al api cuando el mouse pasa por encima , lo hace cada vez que el mouse
+  // pasa por encima
+  const prefetchData = () => {
+    queryClient.prefetchQuery(["issue", issue.number], () =>
+      getIssueInfo(issue.number)
+    );
+
+    queryClient.prefetchQuery(["issue", issue.number, "comments"], () =>
+      getIssueComments(issue.number)
+    );
+  };
+  /*FIN PREFETCH*/
+
+  //El updatedAt revisar
+  const preSetData = () => {
+    queryClient.setQueryData(["issue", issue.number], issue, {
+      updatedAt: new Date().getTime() + 1000,
+    });
+  };
+  console.log();
   return (
     <div
       className="card mb-2 issue"
       onClick={() => navigate(`/issues/issue/${issue.number}`)}
+      // onMouseEnter={onMouseEnter}
+      onMouseEnter={preSetData}
     >
       <div className="card-body d-flex align-items-center">
         {issue.state === State.Open ? (
